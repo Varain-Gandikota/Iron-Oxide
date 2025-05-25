@@ -1,14 +1,12 @@
 using UnityEngine;
 
-public class PlayerTorsoController : MonoBehaviour
+public class LookAtMouse : MonoBehaviour
 {
-    [SerializeField] private Animator torsoAnimator;
-
+    
     void FixedUpdate()
     {
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 direction = (mousePosition - (Vector2)transform.position);
-        torsoAnimator.SetFloat("X", direction.x);
-        torsoAnimator.SetFloat("Y", direction.y);
+        transform.right = direction;
     }
 }
