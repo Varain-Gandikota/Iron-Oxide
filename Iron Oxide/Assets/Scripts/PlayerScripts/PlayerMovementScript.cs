@@ -7,7 +7,7 @@ public class PlayerMovementScript : MonoBehaviour
     private bool canMove = true;
     private Vector2 moveValue;
 
-    private Animator animator;
+    [SerializeField] private Animator animator;
     private Rigidbody2D rb2D;
 
     private InputAction lookAction;
@@ -20,7 +20,6 @@ public class PlayerMovementScript : MonoBehaviour
     {
         lookAction = InputSystem.actions.FindAction("Look");
         rb2D = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
         moveValue = Vector2.zero;
     }
     public void MovePlayer(InputAction.CallbackContext context)
