@@ -1569,7 +1569,7 @@ Transform:
   m_GameObject: {fileID: 1311541488}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.27, y: 0.065, z: 0}
+  m_LocalPosition: {x: 0.25, y: 0.035, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1727,6 +1727,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1464171420}
   - component: {fileID: 1464171421}
+  - component: {fileID: 1464171422}
   m_Layer: 0
   m_Name: Gun Holder
   m_TagString: Untagged
@@ -1760,6 +1761,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 895f6d4edaf1dd44ba617b1ce470d141, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1464171422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1464171419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23820c17c8162546ae426415ae0a725, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1483361622
@@ -2212,6 +2225,7 @@ GameObject:
   - component: {fileID: 1899000167}
   - component: {fileID: 1899000166}
   - component: {fileID: 1899000168}
+  - component: {fileID: 1899000169}
   m_Layer: 0
   m_Name: Starter Pistol
   m_TagString: Untagged
@@ -2263,12 +2277,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: -2031053196045224197, guid: 491e0902861f83c4788b6defe75bf2b8, type: 3}
+  m_Sprite: {fileID: -54541217, guid: e49e1553b41e1814f978b1ca6e293f60, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.09, y: 0.43}
+  m_Size: {x: 0.44, y: 0.2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -2312,6 +2326,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1899000169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1899000165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6f7b6f3a2ca51441948d454bc38dcf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectsToReposition: {fileID: 1311541488}
+  newPositions: {x: 0.23, y: 0.035}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

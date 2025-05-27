@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GunSpriteChagner : MonoBehaviour
+public class GunSpriteChanger : MonoBehaviour
 {
     private Animator gunAnimator;
     private void Start()

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 491e0902861f83c4788b6defe75bf2b8
+guid: e49e1553b41e1814f978b1ca6e293f60
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -103,45 +103,45 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Starter Pistol Sprite_0
+      name: Starter Pistol_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 35
-        width: 44
-        height: 20
+        y: 0
+        width: 48
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: bf67dc111ef30d3e0800000000000000
-      internalID: -2031053196045224197
+      spriteID: 21a8f9bf439c581489cdc2ec91cd235b
+      internalID: -54541217
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Starter Pistol Sprite_1
+      name: Starter Pistol_1
       rect:
         serializedVersion: 2
         x: 48
-        y: 13
-        width: 9
-        height: 43
+        y: 0
+        width: 48
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: e9993420bffb92f60800000000000000
-      internalID: 8010144497050818974
+      spriteID: 742cee2bcc3a2e04daa50d81b626ca9b
+      internalID: -1832902849
       vertices: []
       indices: 
       edges: []
@@ -150,7 +150,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 96f685c74949cb8438181d73c007f265
+    spriteID: 985ad8aee99cb03409adcaa0bf83ffdf
     internalID: 0
     vertices: []
     indices: 
@@ -160,8 +160,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Starter Pistol Sprite_0: -2031053196045224197
-      Starter Pistol Sprite_1: 8010144497050818974
+      Starter Pistol_0: -54541217
+      Starter Pistol_1: -1832902849
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
