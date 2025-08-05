@@ -21,6 +21,7 @@ public class PlayerMovementScript : MonoBehaviour
         lookAction = InputSystem.actions.FindAction("Look");
         rb2D = GetComponent<Rigidbody2D>();
         moveValue = Vector2.zero;
+        animator.speed = 0;
     }
     public void MovePlayer(InputAction.CallbackContext context)
     {

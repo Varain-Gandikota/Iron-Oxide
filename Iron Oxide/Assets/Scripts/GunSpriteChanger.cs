@@ -14,4 +14,5 @@ public class GunSpriteChanger : MonoBehaviour
         gunAnimator.SetFloat("X", direction.x);
         gunAnimator.SetFloat("Y", direction.y);
     }
+
 }
