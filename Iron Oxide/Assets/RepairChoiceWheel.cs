@@ -14,8 +14,6 @@ public class RepairChoiceWheel : MonoBehaviour
 
     public UnityEvent<RepairChoice> RepairChosen { get => repairChosen; set => repairChosen = value; }
 
-    //public RepairChoice RepairChoice { get => repairChoice; set => repairChoice = value; }
-
     private void OnEnable()
     {
         mousePositionAction = InputSystem.actions.FindAction("Look");
