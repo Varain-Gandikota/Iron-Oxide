@@ -7,10 +7,15 @@ public class RepairManager : MonoBehaviour
     [SerializeField] private float timeSlowDown = 0.25f;
 
     [SerializeField] private GameObject repairUIHolder;
-    [SerializeField] GameObject[] bodyRepairVisuals = new GameObject[4];
-    [SerializeField] GameObject[] headRepairVisuals = new GameObject[4];
-    [SerializeField] GameObject[] armRepairVisuals = new GameObject[4];
-    [SerializeField] GameObject[] legsRepairVisuals = new GameObject[4];
+    [SerializeField] GameObject[] bodyRepairs = new GameObject[4];
+    [SerializeField] GameObject[] headRepairs = new GameObject[4];
+    [SerializeField] GameObject[] armsRepairs = new GameObject[4];
+    [SerializeField] GameObject[] legsRepairs = new GameObject[4];
+
+    double bodyDurability = 100;
+    double headDurability = 100;
+    double armDurability = 100;
+    double legsDurability = 100;
 
     // true when player is actively on the repair screen for any given part
     private bool isRepairing = false;
@@ -59,8 +64,8 @@ public class RepairManager : MonoBehaviour
 public enum RepairChoice
 {
     None = -1,
-    Head=0,
-    Body=1,
-    Arms=2, 
-    Legs=3
+    Head = 0,
+    Body = 1,
+    Arms = 2, 
+    Legs = 3
 }

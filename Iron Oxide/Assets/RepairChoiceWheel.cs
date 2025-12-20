@@ -29,10 +29,7 @@ public class RepairChoiceWheel : MonoBehaviour
             for (int i = 0; i < repairChoices.Length; i++)
             {
                 GameObject choice = repairChoices[i];
-                if (choice.Equals(highlightedChoice))
-                    IndicateChoice(choice, true, i);
-                else
-                    IndicateChoice(choice, false);
+                IndicateChoice(choice, choice.Equals(highlightedChoice), i);
             }
         }
     }
