@@ -12,10 +12,15 @@ public class RepairManager : MonoBehaviour
     [SerializeField] GameObject[] armsRepairs = new GameObject[4];
     [SerializeField] GameObject[] legsRepairs = new GameObject[4];
 
-    double bodyDurability = 100;
-    double headDurability = 100;
-    double armDurability = 100;
-    double legsDurability = 100;
+    [SerializeField] private double bodyDurability = 100;
+    [SerializeField] private double headDurability = 100;
+    [SerializeField] private double armDurability = 100;
+    [SerializeField] private double legsDurability = 100;
+
+    private double maxBodyDurability = 100;
+    private double maxHeadDurability = 100;
+    private double maxArmDurability = 100;
+    private double maxLegsDurability = 100;
 
     // true when player is actively on the repair screen for any given part
     private bool isRepairing = false;
@@ -56,6 +61,10 @@ public class RepairManager : MonoBehaviour
                 break;
             case RepairChoice.Body:
                 UIHolderAnimator.SetTrigger("Come Down");
+                int bodyChoice = Random.Range(0, bodyRepairs.Length);
+                GameObject torsoRepair = bodyRepairs[bodyChoice];
+                torsoRepair.GetComponent<IRepairSystem>().StartMinigame(bodyDurability, bodyDurability/maxBodyDurability);
+
                 break;
         }
     }

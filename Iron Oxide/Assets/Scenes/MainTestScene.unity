@@ -660,8 +660,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 290728428}
-  - component: {fileID: 290728430}
   - component: {fileID: 290728429}
+  - component: {fileID: 290728430}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -746,8 +746,8 @@ MonoBehaviour:
           m_StringArgument: Clicked
           m_BoolArgument: 0
         m_CallState: 2
---- !u!61 &290728430
-BoxCollider2D:
+--- !u!60 &290728430
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -780,7 +780,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 28.346622, y: -14.11639}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -790,8 +790,13 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 34.014145, y: 52.45652}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 16.548834, y: -36.560295}
+      - {x: 15.969672, y: -3.316847}
+      - {x: 41.899982, y: 9.231864}
+      - {x: 42.145844, y: -24.98151}
+  m_UseDelaunayMesh: 0
 --- !u!1 &320710502
 GameObject:
   m_ObjectHideFlags: 0
@@ -2217,7 +2222,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1740996316}
+  - {fileID: 2036655542}
   m_Father: {fileID: 1162694941}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -3628,7 +3633,7 @@ MonoBehaviour:
   timeSlowDown: 0.25
   repairUIHolder: {fileID: 942559626}
   bodyRepairs:
-  - {fileID: 0}
+  - {fileID: 1740996315}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -3647,6 +3652,10 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  bodyDurability: 100
+  headDurability: 100
+  armDurability: 100
+  legsDurability: 100
 --- !u!1 &1311541488
 GameObject:
   m_ObjectHideFlags: 0
@@ -4425,7 +4434,7 @@ GameObject:
   - component: {fileID: 1740996319}
   - component: {fileID: 1740996320}
   m_Layer: 5
-  m_Name: Torso Repair
+  m_Name: Repair One
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4438,8 +4447,8 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1740996315}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.17811}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.0004451126}
   m_LocalScale: {x: 2, y: 2, z: 0.94697}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4447,11 +4456,11 @@ RectTransform:
   - {fileID: 1155523274}
   - {fileID: 1906235468}
   - {fileID: 290728428}
-  m_Father: {fileID: 942559627}
+  m_Father: {fileID: 2036655542}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -298, y: -447}
+  m_AnchoredPosition: {x: 0, y: -0.000030517578}
   m_SizeDelta: {x: 96, y: 128}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1740996317
@@ -5109,6 +5118,42 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1938595370}
   m_CullTransparentMesh: 1
+--- !u!1 &2036655541
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2036655542}
+  m_Layer: 5
+  m_Name: Torso Repairs
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2036655542
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036655541}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.17811}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1740996316}
+  m_Father: {fileID: 942559627}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -298, y: -447}
+  m_SizeDelta: {x: 192, y: 256}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2101784141
 GameObject:
   m_ObjectHideFlags: 0
