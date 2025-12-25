@@ -12,15 +12,15 @@ public class RepairManager : MonoBehaviour
     [SerializeField] GameObject[] armsRepairs = new GameObject[4];
     [SerializeField] GameObject[] legsRepairs = new GameObject[4];
 
-    [SerializeField] private double bodyDurability = 100;
-    [SerializeField] private double headDurability = 100;
-    [SerializeField] private double armDurability = 100;
-    [SerializeField] private double legsDurability = 100;
+    [SerializeField] private float bodyDurability = 100;
+    [SerializeField] private float headDurability = 100;
+    [SerializeField] private float armDurability = 100;
+    [SerializeField] private float legsDurability = 100;
 
-    private double maxBodyDurability = 100;
-    private double maxHeadDurability = 100;
-    private double maxArmDurability = 100;
-    private double maxLegsDurability = 100;
+    private float maxBodyDurability = 100;
+    private float maxHeadDurability = 100;
+    private float maxArmDurability = 100;
+    private float maxLegsDurability = 100;
 
     // true when player is actively on the repair screen for any given part
     private bool isRepairing = false;
