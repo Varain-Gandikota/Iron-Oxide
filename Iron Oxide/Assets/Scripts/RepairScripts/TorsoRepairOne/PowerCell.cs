@@ -6,7 +6,7 @@ public class PowerCell : MonoBehaviour
 {
     private Animator powerCellAnimator;
     private Button powerCellButton;
-    private UnityEvent cellDropped = new UnityEvent();
+    private UnityEvent replacementCellShown = new UnityEvent();
     private RectTransform rect;
     private bool isInteractable = false;
     private Image spriteImage;
@@ -19,7 +19,8 @@ public class PowerCell : MonoBehaviour
         }  
     }
 
-    public UnityEvent CellDropped { get => cellDropped; }
+    public UnityEvent ReplacementCellShown { get => replacementCellShown; }
+    public Animator PowerCellAnimator { get => powerCellAnimator; }
 
     private void Start()
     {
@@ -33,10 +34,14 @@ public class PowerCell : MonoBehaviour
     {
         // play powercell dropping animation here
         powerCellAnimator.SetTrigger("Drop");
-        CellDropped.Invoke();
     }
     public void SetColor(Color color)
     {
         spriteImage.color = color;
+    }
+    public void ReplacementShown()
+    {
+        replacementCellShown.Invoke();
+        SetColor(Color.white);
     }
 }

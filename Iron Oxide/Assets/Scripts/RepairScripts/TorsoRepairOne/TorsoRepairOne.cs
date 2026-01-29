@@ -21,9 +21,15 @@ public class TorsoRepairOne : MonoBehaviour, IRepairSystem
         for (int i = 0; i < powerCells.Length; i++)
         {
             //adds the function as a listener
-            powerCells[i].GetComponent<PowerCell>().CellDropped.AddListener(IndicateReplacementCell);
+            PowerCell p = powerCells[i].GetComponent<PowerCell>();
+            p.ReplacementCellShown.AddListener(delegate { ReleaseReplacementCell(p); } );
         }
     }
+    private void StartReplaceCellMinigame(float durability, float durabilityPercentage)
+    {
+
+    }
+    // This is required by the interface, so we wait for the panel by using unity events. Once the panel is opened, it starts the rest of the minigame. 
     public void StartMinigame(float durability, float durabilityPercentage)
     {
         powerCellsReplaced = 0;
@@ -53,8 +59,8 @@ public class TorsoRepairOne : MonoBehaviour, IRepairSystem
     {
         throw new System.NotImplementedException();
     }
-    private void IndicateReplacementCell()
+    private void ReleaseReplacementCell(PowerCell p)
     {
-        
+        p.PowerCellAnimator.enabled = false; 
     }
 }
