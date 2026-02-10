@@ -58,6 +58,7 @@ public class RepairManager : MonoBehaviour
         switch (choice)
         {
             case RepairChoice.None:
+
                 break;
             case RepairChoice.Body:
                 UIHolderAnimator.SetTrigger("Come Down");
@@ -72,7 +73,7 @@ public class RepairManager : MonoBehaviour
 }
 public enum RepairChoice
 {
-    None = -1,
+    None = 4,
     Head = 0,
     Body = 1,
     Arms = 2, 

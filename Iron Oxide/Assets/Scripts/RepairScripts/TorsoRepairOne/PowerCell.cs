@@ -6,10 +6,14 @@ public class PowerCell : MonoBehaviour
 {
     private Animator powerCellAnimator;
     private Button powerCellButton;
+
     private UnityEvent replacementCellShown = new UnityEvent();
+    private UnityEvent powerCellPlacedIn = new UnityEvent();
+
     private RectTransform rect;
-    private bool isInteractable = false;
     private Image spriteImage;
+
+    private bool isInteractable = false;
     public bool IsInteractable { 
         get => isInteractable; 
         set { 
@@ -21,6 +25,7 @@ public class PowerCell : MonoBehaviour
 
     public UnityEvent ReplacementCellShown { get => replacementCellShown; }
     public Animator PowerCellAnimator { get => powerCellAnimator; }
+    public UnityEvent PowerCellPlacedIn { get => powerCellPlacedIn;}
 
     private void Start()
     {
@@ -43,5 +48,14 @@ public class PowerCell : MonoBehaviour
     {
         replacementCellShown.Invoke();
         SetColor(Color.white);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject == transform.parent.gameObject && IsInteractable)
+        {
+            Debug.Log("Power cell placed in");
+        }
+
     }
 }
