@@ -6,6 +6,7 @@ public class PowerCell : MonoBehaviour
 {
     private Animator powerCellAnimator;
     private Button powerCellButton;
+    private Drag powerCellDrag;
 
     private UnityEvent replacementCellShown = new UnityEvent();
     private UnityEvent powerCellPlacedIn = new UnityEvent();
@@ -34,6 +35,7 @@ public class PowerCell : MonoBehaviour
         rect = GetComponent<RectTransform>();
         spriteImage = rect.GetChild(1).gameObject.GetComponent<Image>();
         IsInteractable = false;
+        powerCellDrag = GetComponent<Drag>();
     }
     public void DropCell()
     {
@@ -47,15 +49,26 @@ public class PowerCell : MonoBehaviour
     public void ReplacementShown()
     {
         replacementCellShown.Invoke();
+        powerCellDrag.DoGrab = true;
         SetColor(Color.white);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject == transform.parent.gameObject && IsInteractable)
+        if (collision.gameObject == transform.parent.gameObject && powerCellDrag.DoGrab)
         {
-            Debug.Log("Power cell placed in");
+            powerCellAnimator.enabled = true;
+            powerCellAnimator.SetTrigger("Replace");
+            IsInteractable = false;
+            powerCellPlacedIn.Invoke();
+            //ResetPowerCell();
         }
 
+    }
+    public void ResetPowerCell()
+    {
+        IsInteractable = false;
+        powerCellAnimator.SetTrigger("Reset");
+        SetColor(Color.white);
     }
 }

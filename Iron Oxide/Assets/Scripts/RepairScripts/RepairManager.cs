@@ -45,7 +45,8 @@ public class RepairManager : MonoBehaviour
     {
         UIHolderAnimator.SetTrigger("Come Up");
         Time.timeScale = timeSlowDown;
-        repairWheel.SetActive(true);
+        if (!isRepairing)
+            repairWheel.SetActive(true);
         UIHolderAnimator.ResetTrigger("Come Up");
     }
     public void ChooseRepairChoice(InputAction.CallbackContext context)
@@ -55,22 +56,33 @@ public class RepairManager : MonoBehaviour
     }
     public void ShowRepair(RepairChoice choice)
     {
+        if (isRepairing) return;
+        isRepairing = true;
+
         switch (choice)
         {
             case RepairChoice.None:
+                isRepairing = false;
 
                 break;
             case RepairChoice.Body:
                 UIHolderAnimator.SetTrigger("Come Down");
                 int bodyChoice = Random.Range(0, bodyRepairs.Length);
                 GameObject torsoRepair = bodyRepairs[bodyChoice];
+                torsoRepair.GetComponent<IRepairSystem>().RepairFinished.AddListener(CloseRepair);
                 torsoRepair.GetComponent<IRepairSystem>().StartMinigame(bodyDurability, bodyDurability/maxBodyDurability);
-
+                
                 break;
         }
     }
- 
+    
+    public void CloseRepair()
+    {
+        UIHolderAnimator.SetTrigger("Come Up");
+        isRepairing = false;
+    }
 }
+
 public enum RepairChoice
 {
     None = 4,
