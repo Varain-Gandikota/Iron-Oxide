@@ -80,7 +80,15 @@ public class TorsoRepairOne : MonoBehaviour, IRepairSystem
 
     public void StopMinigame()
     {
-        throw new System.NotImplementedException();
+        foreach (PowerCell p in powerCellsComponents)
+        {
+            p.ResetPowerCell();
+            p.SetColor(Color.white);
+        }
+        powerCellsReplaced = 0;
+        numberOfCellsToReplace = 0;
+        panelButton.interactable = false;
+        panelAnimator.Play("Close Panel");
     }
     private void ReleaseReplacementCell(PowerCell p)
     {

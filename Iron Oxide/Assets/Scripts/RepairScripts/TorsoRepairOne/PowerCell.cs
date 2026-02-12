@@ -60,6 +60,7 @@ public class PowerCell : MonoBehaviour
             powerCellAnimator.enabled = true;
             powerCellAnimator.SetTrigger("Replace");
             IsInteractable = false;
+            powerCellDrag.DoGrab = false;
             powerCellPlacedIn.Invoke();
             //ResetPowerCell();
         }
@@ -68,7 +69,11 @@ public class PowerCell : MonoBehaviour
     public void ResetPowerCell()
     {
         IsInteractable = false;
-        powerCellAnimator.SetTrigger("Reset");
+        powerCellDrag.DoGrab = false;
+        powerCellAnimator.enabled = true;
+        powerCellAnimator.ResetTrigger("Drop");
+        powerCellAnimator.ResetTrigger("Replace");
+        powerCellAnimator.Play("Idle");
         SetColor(Color.white);
     }
 }

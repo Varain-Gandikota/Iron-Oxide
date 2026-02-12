@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class RepairManager : MonoBehaviour
 {
@@ -29,12 +30,15 @@ public class RepairManager : MonoBehaviour
     private bool delayedRepairing = false;
     private InputAction repairWheelAction;
     private Animator UIHolderAnimator;
+    private RepairChoice currentRepairChoice = RepairChoice.None;
+    private IRepairSystem currentRepairSystem;
 
     private void OnEnable()
     {
         repairWheelAction = InputSystem.actions.FindAction("Repair Wheel");
         repairWheelAction.performed += ShowRepairWheel;
         repairWheelAction.canceled += ChooseRepairChoice;
+        currentRepairChoice = RepairChoice.None;
     }
     private void Start()
     {
@@ -44,9 +48,8 @@ public class RepairManager : MonoBehaviour
     public void ShowRepairWheel(InputAction.CallbackContext context)
     {
         UIHolderAnimator.SetTrigger("Come Up");
+        repairWheel.SetActive(true);
         Time.timeScale = timeSlowDown;
-        if (!isRepairing)
-            repairWheel.SetActive(true);
         UIHolderAnimator.ResetTrigger("Come Up");
     }
     public void ChooseRepairChoice(InputAction.CallbackContext context)
@@ -56,22 +59,22 @@ public class RepairManager : MonoBehaviour
     }
     public void ShowRepair(RepairChoice choice)
     {
-        if (isRepairing) return;
+        if (currentRepairChoice == choice) return;
         isRepairing = true;
-
+        currentRepairChoice = choice;
         switch (choice)
         {
             case RepairChoice.None:
-                isRepairing = false;
-
+                CloseRepair();
                 break;
             case RepairChoice.Body:
                 UIHolderAnimator.SetTrigger("Come Down");
                 int bodyChoice = Random.Range(0, bodyRepairs.Length);
                 GameObject torsoRepair = bodyRepairs[bodyChoice];
+                currentRepairSystem = torsoRepair.GetComponent<IRepairSystem>();
                 torsoRepair.GetComponent<IRepairSystem>().RepairFinished.AddListener(CloseRepair);
                 torsoRepair.GetComponent<IRepairSystem>().StartMinigame(bodyDurability, bodyDurability/maxBodyDurability);
-                
+
                 break;
         }
     }
@@ -80,6 +83,9 @@ public class RepairManager : MonoBehaviour
     {
         UIHolderAnimator.SetTrigger("Come Up");
         isRepairing = false;
+        currentRepairChoice = RepairChoice.None;
+        if (currentRepairSystem != null)
+            currentRepairSystem.StopMinigame();
     }
 }
 
