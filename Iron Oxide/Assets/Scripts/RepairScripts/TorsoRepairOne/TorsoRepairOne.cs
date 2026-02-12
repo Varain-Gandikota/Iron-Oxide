@@ -37,10 +37,6 @@ public class TorsoRepairOne : MonoBehaviour, IRepairSystem
             p.PowerCellPlacedIn.AddListener(delegate { CellReplaced(); });
         }
     }
-    private void StartReplaceCellMinigame(float durability, float durabilityPercentage)
-    {
-
-    }
     // This is required by the interface, so we wait for the panel by using unity events. Once the panel is opened, it starts the rest of the minigame. 
     public void StartMinigame(float durability, float durabilityPercentage)
     {

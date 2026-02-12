@@ -15,6 +15,7 @@ public class PowerCell : MonoBehaviour
     private Image spriteImage;
 
     private bool isInteractable = false;
+    private bool isFinished = false;
     public bool IsInteractable { 
         get => isInteractable; 
         set { 
@@ -40,7 +41,9 @@ public class PowerCell : MonoBehaviour
     public void DropCell()
     {
         // play powercell dropping animation here
-        powerCellAnimator.SetTrigger("Drop");
+        if (!isFinished)
+            powerCellAnimator.SetTrigger("Drop");
+        powerCellButton.enabled = false;
     }
     public void SetColor(Color color)
     {
@@ -57,22 +60,22 @@ public class PowerCell : MonoBehaviour
     {
         if (collision.gameObject == transform.parent.gameObject && powerCellDrag.DoGrab)
         {
+            isFinished = true;
+            powerCellPlacedIn.Invoke();
+            IsInteractable = false;
             powerCellAnimator.enabled = true;
             powerCellAnimator.SetTrigger("Replace");
-            IsInteractable = false;
             powerCellDrag.DoGrab = false;
-            powerCellPlacedIn.Invoke();
             //ResetPowerCell();
         }
 
     }
     public void ResetPowerCell()
     {
+        isFinished = false;
         IsInteractable = false;
         powerCellDrag.DoGrab = false;
         powerCellAnimator.enabled = true;
-        powerCellAnimator.ResetTrigger("Drop");
-        powerCellAnimator.ResetTrigger("Replace");
         powerCellAnimator.Play("Idle");
         SetColor(Color.white);
     }
