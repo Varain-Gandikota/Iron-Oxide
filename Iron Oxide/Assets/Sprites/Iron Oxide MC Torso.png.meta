@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8ed11701e39564942b563a300d395b2b
+guid: 808d9893f3cd48e46957a93501e81f2c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3507854047642781234
-    second: Iron Oxide MC Head 1_0
+      213: -6838930749674947695
+    second: Iron Oxide MC Torso_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -96,17 +96,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Iron Oxide MC Head 1_0
+      name: Iron Oxide MC Torso_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 14
-        height: 15
+        width: 20
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2360aa1cba66ea030800000000000000
-      internalID: 3507854047642781234
+      spriteID: 19bf026a7bc3711a0800000000000000
+      internalID: -6838930749674947695
       vertices: []
       indices: 
       edges: []
@@ -125,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Iron Oxide MC Head 1_0: 3507854047642781234
+      Iron Oxide MC Torso_0: -6838930749674947695
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -11,17 +11,21 @@ public class RepairChoiceWheel : MonoBehaviour
     private RepairChoice repairChoice = RepairChoice.None;
     private RepairChoice hoveredChoice = RepairChoice.None;
     private InputAction mousePositionAction;
-
+    private LayerMask repairWheelMask;
     public UnityEvent<RepairChoice> RepairChosen { get => repairChosen; set => repairChosen = value; }
 
     private void OnEnable()
     {
         mousePositionAction = InputSystem.actions.FindAction("Look");
     }
+    private void Start()
+    {
+        repairWheelMask = LayerMask.GetMask("Repair Wheel");
+    }
     private void FixedUpdate()
     {
         Vector2 direction = Camera.main.ScreenToWorldPoint(mousePositionAction.ReadValue<Vector2>()) - transform.position;
-        RaycastHit2D result = Physics2D.Raycast(transform.position, direction, 1000f, LayerMask.GetMask("Repair Wheel"));
+        RaycastHit2D result = Physics2D.Raycast(transform.position, direction, 1000f, repairWheelMask);
         Debug.DrawRay(transform.position, direction, Color.white, 4);
         if (result)
         {

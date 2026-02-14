@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 808d9893f3cd48e46957a93501e81f2c
+guid: 3cc26c4a6c84c9845a00c8d8adeb08da
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6838930749674947695
-    second: Iron Oxide MC Torso_0
+      213: -2147926866588703555
+    second: Iron Oxide Arm Sprite 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,17 +96,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Iron Oxide MC Torso_0
+      name: Iron Oxide Arm Sprite 1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 20
-        height: 14
+        width: 42
+        height: 30
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 19bf026a7bc3711a0800000000000000
-      internalID: -6838930749674947695
+      spriteID: db4667125e70132e0800000000000000
+      internalID: -2147926866588703555
       vertices: []
       indices: 
       edges: []
@@ -135,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Iron Oxide MC Torso_0: -6838930749674947695
+      Iron Oxide Arm Sprite 1_0: -2147926866588703555
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

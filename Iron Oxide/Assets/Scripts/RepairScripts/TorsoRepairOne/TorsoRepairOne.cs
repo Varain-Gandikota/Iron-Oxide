@@ -9,8 +9,6 @@ public class TorsoRepairOne : MonoBehaviour, IRepairSystem
     private int powerCellsReplaced = 0;
     private byte numberOfCellsToReplace = 0;
     private UnityEvent repairFinished = new UnityEvent();
-    
-
     public string Partname { get => partName; set => partName = value; }
 
     public UnityEvent RepairFinished { get => repairFinished; }
@@ -20,10 +18,6 @@ public class TorsoRepairOne : MonoBehaviour, IRepairSystem
     [SerializeField] private Color brokenCellColor;
     private Animator panelAnimator;
     [SerializeField] private Button panelButton;
-    public void Repair()
-    {
-        throw new System.NotImplementedException();
-    }
     private void Start()
     {
         panelAnimator = GetComponent<Animator>();
@@ -59,7 +53,6 @@ public class TorsoRepairOne : MonoBehaviour, IRepairSystem
             p.SetColor(brokenCellColor);
         }
     }
-
     public void FinishMinigame()
     {
         foreach (PowerCell p in powerCellsComponents)
@@ -97,6 +90,7 @@ public class TorsoRepairOne : MonoBehaviour, IRepairSystem
         if (powerCellsReplaced == numberOfCellsToReplace)
         {
             Invoke("FinishMinigame", 0.3f);
+
             Debug.Log("Repair Finished");
         }
     }
