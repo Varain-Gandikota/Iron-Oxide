@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 public enum RepairChoice
 {
@@ -13,21 +14,21 @@ public enum RepairChoice
 }
 public class RepairTypeInformation
 {
+    private GameObject[] repairGameObjects;
     public float Durability { get; set; }
     public float MaxDurability { get; set; }
     public float RepairAmount { get; set; }
     public IRepairSystem[] RepairOptions { get; set; }
-    public GameObject[] RepairGameObjects { get; set; }
+    public GameObject[] RepairGameObjects { get => repairGameObjects; set { repairGameObjects = value; SetRepairGameObjects(value); } }
+
+    public UnityEvent<float, float> OnDurabilityChanged = new();
 
     public RepairTypeInformation()
     {
 
     }
-    public RepairTypeInformation(float _durability, float _maxDurability, float repairAmount, GameObject[] repairGameObjects)
+    private void SetRepairGameObjects(GameObject[] repairGameObjects)
     {
-        Durability = _durability;
-        MaxDurability = _maxDurability;
-        RepairAmount = repairAmount;
         RepairOptions = new IRepairSystem[repairGameObjects.Length];
         int i = 0;
         foreach (GameObject g in repairGameObjects)
@@ -35,7 +36,21 @@ public class RepairTypeInformation
             RepairOptions[i] = g.GetComponent<IRepairSystem>();
             i++;
         }
-        RepairGameObjects = repairGameObjects;
+    }
+    public RepairTypeInformation(float _durability, float _maxDurability, float repairAmount, GameObject[] _repairGameObjects)
+    {
+        Durability = _durability;
+        MaxDurability = _maxDurability;
+        RepairAmount = repairAmount;
+        RepairOptions = new IRepairSystem[_repairGameObjects.Length];
+        int i = 0;
+        foreach (GameObject g in _repairGameObjects)
+        {
+            RepairOptions[i] = g.GetComponent<IRepairSystem>();
+            i++;
+        }
+        repairGameObjects = _repairGameObjects;
+        //OnDurabilityChanged.Invoke(Durability, MaxDurability);
     }
 
     // returns a random repair of the struct repair type, disabling all other options. 
@@ -50,10 +65,16 @@ public class RepairTypeInformation
         return RepairOptions[index];
 
     }
+    public void Repair()
+    {
+        Durability = Mathf.Clamp(Durability + RepairAmount, 0, MaxDurability);
+        OnDurabilityChanged.Invoke(Durability, MaxDurability);
+    }
 
 }
 public class RepairManager : MonoBehaviour
 {
+    [SerializeField] private PlayerData playerData;
     [SerializeField] private GameObject repairWheel;
     [SerializeField] private float timeSlowDown = 0.25f;
 
@@ -62,7 +83,7 @@ public class RepairManager : MonoBehaviour
     [SerializeField] GameObject[] headRepairs = { };
     [SerializeField] GameObject[] armsRepairs = { };
     [SerializeField] GameObject[] legsRepairs = { };
-    private Dictionary<RepairChoice, RepairTypeInformation> repairs = new();
+    //private Dictionary<RepairChoice, RepairTypeInformation> repairs = new();
     // true when player is actively on the repair screen for any given part
     private bool isRepairing = false;
 
@@ -84,12 +105,11 @@ public class RepairManager : MonoBehaviour
     {
         repairWheel.GetComponent<RepairChoiceWheel>().RepairChosen.AddListener(ShowRepair);
         UIHolderAnimator = repairUIHolder.GetComponent<Animator>();
-        repairs.Add(RepairChoice.None, new());
-        repairs.Add(RepairChoice.Head, new(100, 100, 30, headRepairs));
-        repairs.Add(RepairChoice.Body, new(30, 100, 50, bodyRepairs));
-        repairs.Add(RepairChoice.Arms, new(100, 100, 30, armsRepairs));
-        repairs.Add(RepairChoice.Legs, new(100, 100, 45, legsRepairs));
-        Debug.Log("Body Durability: "+repairs[RepairChoice.Body].Durability);
+        playerData.repairs[RepairChoice.Head].RepairGameObjects = headRepairs;
+        playerData.repairs[RepairChoice.Body].RepairGameObjects = bodyRepairs;
+        playerData.repairs[RepairChoice.Arms].RepairGameObjects = armsRepairs;
+        playerData.repairs[RepairChoice.Legs].RepairGameObjects = legsRepairs;
+        Debug.Log("Body Durability: "+ playerData.repairs[RepairChoice.Body].Durability);
     }
     public void ShowRepairWheel(InputAction.CallbackContext context)
     {
@@ -113,7 +133,7 @@ public class RepairManager : MonoBehaviour
             return;
         }
 
-        RepairTypeInformation repairInfo = repairs[choice];
+        RepairTypeInformation repairInfo = playerData.repairs[choice];
 
         if (repairInfo.Durability >= repairInfo.MaxDurability)
         {
@@ -123,6 +143,7 @@ public class RepairManager : MonoBehaviour
 
         isRepairing = true;
         currentRepairChoice = choice;
+        Debug.Log(repairInfo.RepairGameObjects);
         IRepairSystem repairSystem = repairInfo.ReturnRandomRepair();
         currentRepairSystem = repairSystem;
         repairSystem.RepairFinished.AddListener(delegate { FinishRepair(ref repairInfo); });
@@ -142,8 +163,8 @@ public class RepairManager : MonoBehaviour
     }
     public void FinishRepair(ref RepairTypeInformation repairInfo)
     {
-        repairInfo.Durability = Mathf.Clamp(repairInfo.Durability + repairInfo.RepairAmount, 0, repairInfo.MaxDurability);
-        RepairChargeManager.Instance.AmountOfTokens--;
+        repairInfo.Repair();
+        playerData.AmountOfRepairTokens--;
         CloseRepair();
     }
 }

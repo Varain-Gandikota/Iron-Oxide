@@ -5,7 +5,7 @@ using System.Transactions;
 
 public class RepairChargeManager : MonoBehaviour
 {
-    public static RepairChargeManager Instance;
+    [SerializeField] private PlayerData playerData;
     [SerializeField] private Image repairChargeBar;
     [SerializeField] private TextMeshProUGUI tokenAmountText;
     [SerializeField] private int maxChargeAmount;
@@ -37,17 +37,20 @@ public class RepairChargeManager : MonoBehaviour
 
     public bool DoAutoCharge { get => doAutoCharge; set => doAutoCharge = value; }
 
-    private void OnEnable()
-    {
-        Instance = this;
-        ChargeAmount = 0;
-        AmountOfTokens = 3;
-    }
-
     private void Update()
     {
         ChargeAmount += autoChargeAmount* Time.deltaTime;
     }
-
+    private void OnEnable()
+    {
+        playerData.OnAmountOfRepairTokensChanged.AddListener(UpdateAmountOfTokens);
+    }
+    void UpdateAmountOfTokens() {
+        AmountOfTokens = playerData.AmountOfRepairTokens;
+    }
+     private void OnDisable()
+    {
+        playerData.OnAmountOfRepairTokensChanged.RemoveListener(UpdateAmountOfTokens);
+    }
 
 }

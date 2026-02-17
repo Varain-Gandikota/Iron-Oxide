@@ -35,7 +35,7 @@ public class TorsoRepairOne : MonoBehaviour, IRepairSystem
     public void StartMinigame(float durability, float durabilityPercentage)
     {
         panelAnimator.Play("Idle");
-        panelButton.interactable = true;
+        panelButton.enabled = true;
         powerCellsReplaced = 0;
         for (int i = 0; i < powerCells.Length; i++)
         {
@@ -62,7 +62,7 @@ public class TorsoRepairOne : MonoBehaviour, IRepairSystem
         }
         powerCellsReplaced = 0;
         numberOfCellsToReplace = 0;
-        panelButton.interactable = false;
+        panelButton.enabled = false;
         panelAnimator.Play("Close Panel");
         repairFinished.Invoke();
     }
@@ -76,7 +76,7 @@ public class TorsoRepairOne : MonoBehaviour, IRepairSystem
         }
         powerCellsReplaced = 0;
         numberOfCellsToReplace = 0;
-        panelButton.interactable = false;
+        panelButton.enabled = false;
         panelAnimator.Play("Close Panel");
     }
     private void ReleaseReplacementCell(PowerCell p)
