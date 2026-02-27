@@ -135,7 +135,7 @@ public class RepairManager : MonoBehaviour
 
         RepairTypeInformation repairInfo = playerData.repairs[choice];
 
-        if (repairInfo.Durability >= repairInfo.MaxDurability)
+        if (repairInfo.Durability >= repairInfo.MaxDurability || playerData.AmountOfRepairTokens <= 0)
         {
             CloseRepair();
             return;

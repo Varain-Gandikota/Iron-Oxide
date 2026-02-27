@@ -20,7 +20,7 @@ public class RepairChargeManager : MonoBehaviour
             chargeAmount = value;
             repairChargeBar.fillAmount = chargeAmount / maxChargeAmount;
             if (chargeAmount >= maxChargeAmount && amountOfTokens < maxAmountTokens) {
-                AmountOfTokens++;
+                playerData.AmountOfRepairTokens++;
                 chargeAmount = 0;
             }
         }
@@ -44,6 +44,7 @@ public class RepairChargeManager : MonoBehaviour
     private void OnEnable()
     {
         playerData.OnAmountOfRepairTokensChanged.AddListener(UpdateAmountOfTokens);
+        UpdateAmountOfTokens();
     }
     void UpdateAmountOfTokens() {
         AmountOfTokens = playerData.AmountOfRepairTokens;

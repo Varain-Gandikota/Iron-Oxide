@@ -1,13 +1,15 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class RepairChoiceWheel : MonoBehaviour
 {
     
     [SerializeField] private GameObject[] repairChoices = new GameObject[4];
     [SerializeField] private UnityEvent<RepairChoice> repairChosen = new UnityEvent<RepairChoice>();
-
+    [SerializeField] private PlayerData playerData;
+    [SerializeField] private float scaleMultiplier = 0.8f;
     private RepairChoice repairChoice = RepairChoice.None;
     private RepairChoice hoveredChoice = RepairChoice.None;
     private InputAction mousePositionAction;
@@ -41,12 +43,24 @@ public class RepairChoiceWheel : MonoBehaviour
     {
         repairChoice = hoveredChoice;
         repairChosen.Invoke(repairChoice);
+        for (int i = 0; i < repairChoices.Length; i++)
+        {
+            GameObject choice = repairChoices[i];
+            IndicateChoice(choice, false, i);
+        }
     }
-    private void IndicateChoice(GameObject choice, bool active, int index = -1)
+    private void IndicateChoice(GameObject choice, bool active, int index = 4)
     {
-        choice.transform.GetChild(0).gameObject.SetActive(active);
-        if (active)
+        RepairTypeInformation repairInfo = playerData.repairs[(RepairChoice)index];
+        if (repairInfo.Durability >= repairInfo.MaxDurability || playerData.AmountOfRepairTokens <= 0)
+        {
+            choice.transform.GetChild(0).gameObject.SetActive(false);
+        } else
+            choice.transform.GetChild(0).gameObject.SetActive(active);
+        if (active) {
+
             hoveredChoice = (RepairChoice)index;
+        }
 
     }
 

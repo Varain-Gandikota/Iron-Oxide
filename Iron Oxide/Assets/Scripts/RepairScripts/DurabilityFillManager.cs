@@ -14,15 +14,23 @@ public class DurabilityFillManager : MonoBehaviour
     [SerializeField] private RepairChoice repairChoice;
     [SerializeField] private PlayerData playerData;
 
+    private RectTransform durabilityRectTransform;
     private float time = 0f;
     private float ogBackFill = 0f;
 
     private Coroutine curCor = null;
     private bool goUpToFront = false;
+    private Color ogColor = Color.white;
+    private Color endColor = Color.white;
+    private bool durabilityLow = false;
+
     public void SetDurabilityFill(float durability, float maxDurability)
     {
+
         time = 0f;
         float durabilityPercentage = durability / maxDurability;
+        durabilityLow = durabilityPercentage <= 0.3f;
+        endColor = durabilityLow ? Color.red : ogColor;
         if (durabilityFillImage.fillAmount > durabilityPercentage)
         {
             if (curCor != null)
@@ -52,11 +60,11 @@ public class DurabilityFillManager : MonoBehaviour
         while (elapsedTime < shakeDuration)
         {
             float shakeAmount = Mathf.Sin(elapsedTime * 50) * distanceFromNewValue * shakeStrength; // Adjust the shake strength as needed
-            durabilityFillImage.rectTransform.localPosition = new Vector3(shakeAmount, durabilityFillImage.rectTransform.localPosition.y, durabilityFillImage.rectTransform.localPosition.z);
+            durabilityRectTransform.localPosition = new Vector3(shakeAmount, durabilityRectTransform.localPosition.y, durabilityRectTransform.localPosition.z);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        durabilityFillImage.rectTransform.localPosition = new Vector3(0, durabilityFillImage.rectTransform.localPosition.y, durabilityFillImage.rectTransform.localPosition.z); // Reset position after shaking
+        durabilityRectTransform.localPosition = new Vector3(0, durabilityRectTransform.localPosition.y, durabilityRectTransform.localPosition.z); // Reset position after shaking
     }
     private void OnEnable()
     {
@@ -64,27 +72,29 @@ public class DurabilityFillManager : MonoBehaviour
     }
     private void Start()
     {
+        ogColor = durabilityFillImage.color;
         playerData.repairs[repairChoice].OnDurabilityChanged.AddListener(SetDurabilityFill);
         SetDurabilityFill(playerData.repairs[repairChoice].Durability, playerData.repairs[repairChoice].MaxDurability);
+        durabilityRectTransform = durabilityFillImage.rectTransform;
+        
     }
     private IEnumerator ColorToWhite(Color colorToFadeTo)
     {
         float elapsedTime = 0f;
         Color startColor = colorToFadeTo;
-        Color endColor = Color.white;
         while (elapsedTime < colorChangeDuration)
         {
             durabilityFillImage.color = Color.Lerp(startColor, endColor, elapsedTime / colorChangeDuration);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        durabilityFillImage.color = endColor; // Ensure the final color is set to white
+        durabilityFillImage.color = endColor; 
     }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            //SetDurabilityFill(Random.Range(0f, 1f), 1);
+            SetDurabilityFill(Random.Range(0f, 1f), 1);
         }
 
         if (durabilityFillImage.fillAmount == ghostDurabilityFillImage.fillAmount)
