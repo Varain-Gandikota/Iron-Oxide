@@ -72,10 +72,11 @@ public class DurabilityFillManager : MonoBehaviour
     }
     private void Start()
     {
+        durabilityRectTransform = durabilityFillImage.rectTransform;
         ogColor = durabilityFillImage.color;
         playerData.repairs[repairChoice].OnDurabilityChanged.AddListener(SetDurabilityFill);
         SetDurabilityFill(playerData.repairs[repairChoice].Durability, playerData.repairs[repairChoice].MaxDurability);
-        durabilityRectTransform = durabilityFillImage.rectTransform;
+        
         
     }
     private IEnumerator ColorToWhite(Color colorToFadeTo)
