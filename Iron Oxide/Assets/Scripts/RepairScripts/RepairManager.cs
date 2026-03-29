@@ -15,16 +15,19 @@ public enum RepairChoice
 public class RepairTypeInformation
 {
     private GameObject[] repairGameObjects;
+    private bool invulnerable = false;
     public float Durability { get; set; }
     public float MaxDurability { get; set; }
     public float RepairAmount { get; set; }
     public IRepairSystem[] RepairOptions { get; set; }
     public GameObject[] RepairGameObjects { get => repairGameObjects; set { repairGameObjects = value; SetRepairGameObjects(value); } }
 
-    public UnityEvent<float, float> OnDurabilityChanged = new();
+    public bool Invulnerable { get => invulnerable; set => invulnerable = value; }
 
-    public RepairTypeInformation()
-    {
+    public UnityEvent<float, float> OnDurabilityChanged = new();
+    public UnityEvent OnDurabilityDepleted = new();
+
+    public RepairTypeInformation(){
 
     }
     private void SetRepairGameObjects(GameObject[] repairGameObjects)
@@ -70,6 +73,16 @@ public class RepairTypeInformation
         Durability = Mathf.Clamp(Durability + RepairAmount, 0, MaxDurability);
         OnDurabilityChanged.Invoke(Durability, MaxDurability);
     }
+    public bool Damage(float damageAmount)
+    {
+        if (invulnerable) return false;
+        Durability = Mathf.Clamp(Durability - damageAmount, 0, MaxDurability);
+        OnDurabilityChanged.Invoke(Durability, MaxDurability);
+        if (Durability <= 0) {
+            OnDurabilityDepleted.Invoke();
+        }
+        return true;
+    }
 
 }
 public class RepairManager : MonoBehaviour
@@ -109,7 +122,7 @@ public class RepairManager : MonoBehaviour
         playerData.repairs[RepairChoice.Body].RepairGameObjects = bodyRepairs;
         playerData.repairs[RepairChoice.Arms].RepairGameObjects = armsRepairs;
         playerData.repairs[RepairChoice.Legs].RepairGameObjects = legsRepairs;
-        Debug.Log("Body Durability: "+ playerData.repairs[RepairChoice.Body].Durability);
+        //Debug.Log("Body Durability: "+ playerData.repairs[RepairChoice.Body].Durability);
     }
     public void ShowRepairWheel(InputAction.CallbackContext context)
     {

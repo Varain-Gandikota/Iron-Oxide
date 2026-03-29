@@ -15,11 +15,8 @@ public class PlayerParry : MonoBehaviour
     // ignores the cooldown variable if its true
     private bool cancelCoolDown = false;
     private bool doParry = false;
-
-    private readonly int AnimatorParryHash = Animator.StringToHash("Parry");
     private readonly int AnimatorRTLParryHash = Animator.StringToHash("RTL Parry");
     private readonly int AnimatorLTRParryHash = Animator.StringToHash("LTR Parry");
-    //private readonly int AnimatorReturnHash = Animator.StringToHash("Return");
 
     private bool isRightAnimation = true;
     public void AttemptParry()
