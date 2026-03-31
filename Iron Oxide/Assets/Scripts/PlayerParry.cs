@@ -19,6 +19,12 @@ public class PlayerParry : MonoBehaviour
     private readonly int AnimatorLTRParryHash = Animator.StringToHash("LTR Parry");
 
     private bool isRightAnimation = true;
+    private int parryLayer = 0;
+
+    private void Awake()
+    {
+        parryLayer = LayerMask.NameToLayer("Parry");
+    }
     public void AttemptParry()
     {
         doParry = canParry && (!isOnCoolDown || cancelCoolDown);
@@ -40,6 +46,12 @@ public class PlayerParry : MonoBehaviour
         yield return new WaitForSeconds(time);
         isOnCoolDown = false;
     }
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == parryLayer)
+        {
+            Debug.Log("Parried Detected With " + collision.gameObject.name);
+        }
 
-
+    }
 }
