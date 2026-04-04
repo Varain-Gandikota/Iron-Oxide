@@ -21,6 +21,13 @@ public class PlayerParry : MonoBehaviour
     private bool isRightAnimation = true;
     private int parryLayer = 0;
 
+    private Coroutine parryCoolDownCoroutine;
+    /*
+     * Im trying to make a parry system that allows the player to attempt a parry, which calls the method attemptParry. That stuff all works.
+     * Im trying to make it to where if the player successfully parries, it allows them to perform another parry, however, 
+     * if it fails it goes back to a 0.75 second cooldown, 
+     * 
+     */
     private void Awake()
     {
         parryLayer = LayerMask.NameToLayer("Parry");
@@ -36,7 +43,11 @@ public class PlayerParry : MonoBehaviour
             else {
                 gunHolderAnimator.Play(AnimatorLTRParryHash, 0, 0f);
             }
-            StartCoroutine(ParryCoolDown(parryCoolDown));
+            if (parryCoolDownCoroutine != null)
+            {
+                StopCoroutine(parryCoolDownCoroutine);
+            }
+            parryCoolDownCoroutine = StartCoroutine(ParryCoolDown(parryCoolDown));
         }
         
     }
@@ -50,7 +61,13 @@ public class PlayerParry : MonoBehaviour
     {
         if (collision.gameObject.layer == parryLayer)
         {
-            Debug.Log("Parried Detected With " + collision.gameObject.name);
+            if (doParry) {
+                Debug.Log("Parried Detected With " + collision.gameObject.name);
+                StopCoroutine(parryCoolDownCoroutine);
+                isOnCoolDown = false;
+            }
+            //collision.
+
         }
 
     }
