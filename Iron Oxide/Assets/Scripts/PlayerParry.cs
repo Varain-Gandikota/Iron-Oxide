@@ -1,48 +1,49 @@
+using System;
 using System.Collections;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerParry : MonoBehaviour
 {
     [SerializeField] private Animator gunHolderAnimator;
     [SerializeField] private PlayerData playerData;
-    [SerializeField] private float timeUntilReturnToIdle = 0.3f;
     [SerializeField] private bool canParry = true;
 
     [SerializeField] private float parryCoolDown = 0.3f;
+    [SerializeField] private float successParryCoolDown = 0.1f;
+    [SerializeField] private ParticleSystem parryEffect;
+    
     private bool isOnCoolDown = false;
     // ignores the cooldown variable if its true
     private bool cancelCoolDown = false;
     private bool doParry = false;
+    private Collider2D currentlyParriedCollider = null;
     private readonly int AnimatorRTLParryHash = Animator.StringToHash("RTL Parry");
     private readonly int AnimatorLTRParryHash = Animator.StringToHash("LTR Parry");
+    private InputAction meleeAction;
 
     private bool isRightAnimation = true;
     private int parryLayer = 0;
 
     private Coroutine parryCoolDownCoroutine;
-    /*
-     * Im trying to make a parry system that allows the player to attempt a parry, which calls the method attemptParry. That stuff all works.
-     * Im trying to make it to where if the player successfully parries, it allows them to perform another parry, however, 
-     * if it fails it goes back to a 0.75 second cooldown, 
-     * 
-     */
+
+    public Action OnParrySuccess = delegate { };
+    public Action OnParryFail = delegate { };
     private void Awake()
     {
+        meleeAction = InputSystem.actions.FindAction("Melee");
+        meleeAction.performed += AttemptParry;
         parryLayer = LayerMask.NameToLayer("Parry");
     }
-    public void AttemptParry()
+    public void AttemptParry(InputAction.CallbackContext context)
     {
         doParry = canParry && (!isOnCoolDown || cancelCoolDown);
+        Debug.Log("Parry Attempted. Can Parry: " + canParry + ", Is On Cooldown: " + isOnCoolDown + ", Cancel Cooldown: " + cancelCoolDown + ", Do Parry: " + doParry);
         if (doParry) {
             isRightAnimation = !isRightAnimation;
-            if (isRightAnimation) {
-                gunHolderAnimator.Play(AnimatorRTLParryHash, 0, 0f);
-            } 
-            else {
-                gunHolderAnimator.Play(AnimatorLTRParryHash, 0, 0f);
-            }
+            gunHolderAnimator.Play(isRightAnimation ? AnimatorRTLParryHash : AnimatorLTRParryHash, 0, 0f);
+            //currentlyParriedCollider = null;
+
             if (parryCoolDownCoroutine != null)
             {
                 StopCoroutine(parryCoolDownCoroutine);
@@ -61,12 +62,22 @@ public class PlayerParry : MonoBehaviour
     {
         if (collision.gameObject.layer == parryLayer)
         {
+            //if (collision == currentlyParriedCollider)
+            //{
+            //    return;
+            //}
+            Debug.Log("Parry Attempt Detected With " + collision.gameObject.name);
             if (doParry) {
+                //currentlyParriedCollider = collision;
                 Debug.Log("Parried Detected With " + collision.gameObject.name);
-                StopCoroutine(parryCoolDownCoroutine);
-                isOnCoolDown = false;
+                if (parryCoolDownCoroutine != null)
+                {
+                    StopCoroutine(parryCoolDownCoroutine);
+                }
+                parryCoolDownCoroutine = StartCoroutine(ParryCoolDown(successParryCoolDown));
+                parryEffect.Play();
+                OnParrySuccess.Invoke();
             }
-            //collision.
 
         }
 

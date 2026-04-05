@@ -527,7 +527,7 @@
                     "name": "",
                     "id": "fdcf80be-ab94-496b-b10b-8f6c95d291a2",
                     "path": "<Keyboard>/f",
-                    "interactions": "Tap",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "",
                     "action": "Melee",

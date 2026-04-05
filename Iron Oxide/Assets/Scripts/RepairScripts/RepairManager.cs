@@ -109,7 +109,7 @@ public class RepairManager : MonoBehaviour
 
     private void OnEnable()
     {
-        repairWheelAction = InputSystem.actions.FindAction("Repair Wheel");
+        repairWheelAction = InputSystem.actions.FindAction("Repair Wheel"); 
         repairWheelAction.performed += ShowRepairWheel;
         repairWheelAction.canceled += ChooseRepairChoice;
         currentRepairChoice = RepairChoice.None;
