@@ -1,8 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
-using System.Collections.Generic;
 using UnityEngine.Events;
+using System.Collections;
 
 public enum RepairChoice
 {
@@ -89,7 +88,7 @@ public class RepairManager : MonoBehaviour
 {
     [SerializeField] private PlayerData playerData;
     [SerializeField] private GameObject repairWheel;
-    [SerializeField] private float timeSlowDown = 0.25f;
+    [SerializeField] private AnimationCurve timeSlowDown;
 
     [SerializeField] private GameObject repairUIHolder;
     [SerializeField] GameObject[] bodyRepairs = { };
@@ -104,12 +103,17 @@ public class RepairManager : MonoBehaviour
     private bool delayedRepairing = false;
     private InputAction repairWheelAction;
     private Animator UIHolderAnimator;
+    private Coroutine timeSlowCoroutine = null;
+    private float currentTimeScale = 0;
     private RepairChoice currentRepairChoice = RepairChoice.None;
     private IRepairSystem currentRepairSystem;
+    private InputAction meleeAction;
 
     private void OnEnable()
     {
-        repairWheelAction = InputSystem.actions.FindAction("Repair Wheel"); 
+        repairWheelAction = InputSystem.actions.FindAction("Repair Wheel");
+        meleeAction = InputSystem.actions.FindAction("Melee");
+
         repairWheelAction.performed += ShowRepairWheel;
         repairWheelAction.canceled += ChooseRepairChoice;
         currentRepairChoice = RepairChoice.None;
@@ -122,17 +126,43 @@ public class RepairManager : MonoBehaviour
         playerData.repairs[RepairChoice.Body].RepairGameObjects = bodyRepairs;
         playerData.repairs[RepairChoice.Arms].RepairGameObjects = armsRepairs;
         playerData.repairs[RepairChoice.Legs].RepairGameObjects = legsRepairs;
-        //Debug.Log("Body Durability: "+ playerData.repairs[RepairChoice.Body].Durability);
     }
     public void ShowRepairWheel(InputAction.CallbackContext context)
     {
+        meleeAction.Disable();
         UIHolderAnimator.SetTrigger("Come Up");
         repairWheel.SetActive(true);
-        Time.timeScale = timeSlowDown;
+        if (timeSlowCoroutine != null) StopCoroutine(timeSlowCoroutine);
+        Time.timeScale = 1;
+        timeSlowCoroutine = StartCoroutine(SlowDownTime());
+        //Time.timeScale = timeSlowDown;
         UIHolderAnimator.ResetTrigger("Come Up");
+    }
+    private IEnumerator SlowDownTime()
+    {
+        float time = timeSlowDown.keys[timeSlowDown.length - 1].time;
+        while (currentTimeScale < time)
+        {
+            if (Time.timeScale == 0)
+            {
+                break;
+            }
+            Time.timeScale = timeSlowDown.Evaluate(currentTimeScale);
+            currentTimeScale += Time.unscaledDeltaTime;
+            yield return null;
+        }
+        Time.timeScale = timeSlowDown.Evaluate(currentTimeScale);
+        currentTimeScale = timeSlowDown.Evaluate(0);
+        yield return new WaitForSeconds(1f);
+        currentTimeScale = 0; 
+
     }
     public void ChooseRepairChoice(InputAction.CallbackContext context)
     {
+        if (timeSlowCoroutine != null) StopCoroutine(timeSlowCoroutine);
+        else currentTimeScale = 0;
+        meleeAction.Enable();
+        if (Time.timeScale == 0) { return; }
         Time.timeScale = 1;
         repairWheel.SetActive(false);
     }

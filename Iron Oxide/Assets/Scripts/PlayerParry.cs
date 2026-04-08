@@ -9,7 +9,7 @@ public class PlayerParry : MonoBehaviour
     [SerializeField] private Animator gunHolderAnimator;
     [SerializeField] private PlayerData playerData;
     [SerializeField] private bool canParry = true;
-
+    [Header("Parry Cooldown Settings")]
     [SerializeField] private float parryCoolDown = 0.3f;
     [SerializeField] private float successParryCoolDown = 0.1f;
     [SerializeField] private ParticleSystem parryEffect;
@@ -27,11 +27,14 @@ public class PlayerParry : MonoBehaviour
     private int parryLayer = 0;
 
     private Coroutine parryCoolDownCoroutine;
-    private Coroutine stopGunEffectCoroutine;
     private Vector3 originalLocalPosition;
     public Action OnParrySuccess = delegate { };
     public Action OnParryFail = delegate { };
+    [Header("Parry Effects Settings")]
     [SerializeField] private float parryEffectShakeStrength = 390f;
+    [SerializeField] private float hitStopLength = 0.2f;
+    [SerializeField] private float whiteFlashDuration = 0.2f;
+    [SerializeField] private float fadeDuration = 0.2f;
     private void Awake()
     {
         meleeAction = InputSystem.actions.FindAction("Melee");
@@ -50,11 +53,13 @@ public class PlayerParry : MonoBehaviour
             isRightAnimation = !isRightAnimation;
             gunHolderAnimator.Play(isRightAnimation ? AnimatorRTLParryHash : AnimatorLTRParryHash, 0, 0f);
 
+            //HitStopEffect.TriggerHitStop(0.1f);
             if (parryCoolDownCoroutine != null)
             {
                 StopCoroutine(parryCoolDownCoroutine);
             }
             parryCoolDownCoroutine = StartCoroutine(ParryCoolDown(parryCoolDown));
+
         }
         
     }
@@ -85,26 +90,13 @@ public class PlayerParry : MonoBehaviour
                 parryEffect.transform.position = localParticleSystemPosition.transform.position;
                 parryEffect.Play();
                 OnParrySuccess.Invoke();
-                if (stopGunEffectCoroutine != null)
-                {
-                    StopCoroutine(stopGunEffectCoroutine);
-                }
-                stopGunEffectCoroutine = StartCoroutine(StartGunParryEffects(0.3f));
+                Effects.TriggerHitStop(hitStopLength);
+                Effects.FlashWhite(whiteFlashDuration, fadeDuration);
 
             }
 
         }
 
-    }
-    private IEnumerator StartGunParryEffects(float time)
-    {
-        ShakeObject.Shake(parryEffectShakeStrength, time, gunHolderAnimator.transform, originalLocalPosition);
-        //gunHolderAnimator.StopPlayback();
-        //gunHolderAnimator.speed = 0;
-        Time.timeScale = 0;
-        yield return new WaitForSecondsRealtime(time);
-        Time.timeScale = 1;
-        //gunHolderAnimator.speed = 1;
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
