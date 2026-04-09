@@ -91,7 +91,7 @@ public class Effects : MonoBehaviour
 
     private IEnumerator FlashWhiteRoutine(float flashDuration, float fadeDuration)
     {
-        flashWhiteImage.color = new Color(1f, 1f, 1f, 0.3f);
+        flashWhiteImage.color = new Color(1f, 1f, 1f, 0.15f);
 
         yield return new WaitForSecondsRealtime(flashDuration);
 
@@ -99,7 +99,7 @@ public class Effects : MonoBehaviour
         while (elapsedTime < fadeDuration)
         {
             elapsedTime += Time.unscaledDeltaTime;
-            float alpha = Mathf.Lerp(0.3f, 0f, elapsedTime / fadeDuration);
+            float alpha = Mathf.Lerp(0.15f, 0f, elapsedTime / fadeDuration);
             flashWhiteImage.color = new Color(1f, 1f, 1f, alpha);
             yield return null;
         }
