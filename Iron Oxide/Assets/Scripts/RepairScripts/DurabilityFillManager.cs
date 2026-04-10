@@ -93,11 +93,6 @@ public class DurabilityFillManager : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            SetDurabilityFill(Random.Range(0f, 1f), 1);
-        }
-
         if (durabilityFillImage.fillAmount == ghostDurabilityFillImage.fillAmount)
             return;
         time += Time.deltaTime;

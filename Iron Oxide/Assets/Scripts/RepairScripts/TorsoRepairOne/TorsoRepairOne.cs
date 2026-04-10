@@ -13,13 +13,17 @@ public class TorsoRepairOne : MonoBehaviour, IRepairSystem
 
     public UnityEvent RepairFinished { get => repairFinished; }
 
+    [Header("References")]
     [SerializeField] private GameObject[] powerCells = new GameObject[3];
     private PowerCell[] powerCellsComponents = new PowerCell[3];
     [SerializeField] private Color brokenCellColor;
     private Animator panelAnimator;
-    [SerializeField] private Button panelButton;
+    [SerializeField] private GameObject panel;
+    private Button panelButton;
+
     private void Start()
     {
+        panelButton = panel.GetComponent<Button>();
         panelAnimator = GetComponent<Animator>();
         panelAnimator.Play("Idle");
         for (int i = 0; i < powerCells.Length; i++)
@@ -36,6 +40,7 @@ public class TorsoRepairOne : MonoBehaviour, IRepairSystem
     {
         panelAnimator.Play("Idle");
         panelButton.enabled = true;
+        
         powerCellsReplaced = 0;
         for (int i = 0; i < powerCells.Length; i++)
         {
@@ -55,20 +60,13 @@ public class TorsoRepairOne : MonoBehaviour, IRepairSystem
     }
     public void FinishMinigame()
     {
-        foreach (PowerCell p in powerCellsComponents)
-        {
-            p.ResetPowerCell();
-            p.SetColor(Color.white);
-        }
-        powerCellsReplaced = 0;
-        numberOfCellsToReplace = 0;
-        panelButton.enabled = false;
-        panelAnimator.Play("Close Panel");
+        StopMinigame();
         repairFinished.Invoke();
     }
 
     public void StopMinigame()
     {
+        panel.transform.SetAsLastSibling();
         foreach (PowerCell p in powerCellsComponents)
         {
             p.ResetPowerCell();
@@ -84,12 +82,17 @@ public class TorsoRepairOne : MonoBehaviour, IRepairSystem
         p.PowerCellAnimator.enabled = false;
         
     }
+    // sets panel as the last sibling so it shows up behind the power cells
+    private void SetPanelBehindPowerCells()
+    {
+        panel.transform.SetAsFirstSibling();
+    }
     private void CellReplaced()
     {
         powerCellsReplaced++;
         if (powerCellsReplaced == numberOfCellsToReplace)
         {
-            Invoke("FinishMinigame", 0.3f);
+            Invoke(nameof(FinishMinigame), 0.3f);
 
             Debug.Log("Repair Finished");
         }

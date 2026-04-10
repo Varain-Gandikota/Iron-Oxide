@@ -25,6 +25,7 @@ public class PlayerParry : MonoBehaviour
 
     private bool isRightAnimation = true;
     private int parryLayer = 0;
+    private int hitboxLayer = 0;
 
     private Coroutine parryCoolDownCoroutine;
     private Vector3 originalLocalPosition;
@@ -40,6 +41,7 @@ public class PlayerParry : MonoBehaviour
         meleeAction = InputSystem.actions.FindAction("Melee");
         meleeAction.performed += AttemptParry;
         parryLayer = LayerMask.NameToLayer("Parry");
+        hitboxLayer = LayerMask.NameToLayer("Hitbox");
     }
     private void Start()
     {
