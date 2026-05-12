@@ -7,7 +7,7 @@ public class DamageManager : MonoBehaviour
     {
         if (target.TryGetComponent(out IHealth health))
         {
-            health.HitPoints -= damageAmount;
+            health.Damage(damageAmount);
         }
     }
 }

@@ -88,6 +88,7 @@ public class PlayerParry : MonoBehaviour
                 {
                     StopCoroutine(parryCoolDownCoroutine);
                 }
+                collision.gameObject.GetComponent<ParryableScript>().GetParried();
                 parryCoolDownCoroutine = StartCoroutine(ParryCoolDown(successParryCoolDown));
                 parryEffect.transform.position = localParticleSystemPosition.transform.position;
                 parryEffect.Play();
