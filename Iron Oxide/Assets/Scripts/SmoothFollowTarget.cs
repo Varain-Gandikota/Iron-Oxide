@@ -9,10 +9,11 @@ public class SmoothFollowTarget : MonoBehaviour
     public float smoothTime;
     private Vector3 v;
     public bool isCamera = false;
+    public bool followMouse = false;
 
     void Start()
     {
-        if (target == null)
+        if (target == null && !followMouse)
         {
             GameObject g = GameObject.FindWithTag(tagToTarget);
             if (g != null)
@@ -21,9 +22,17 @@ public class SmoothFollowTarget : MonoBehaviour
     }
     void Update()
     {
+        if (followMouse)
+        {
+            Vector3 v = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            v.z = 0;
+            transform.position = v;
+
+        }
         if (target == null)
             return;
         transform.position = Vector3.SmoothDamp(transform.position, target.position, ref v, smoothTime);
+
         if (isCamera)
             transform.position = new Vector3(transform.position.x, transform.position.y, -10);
     }

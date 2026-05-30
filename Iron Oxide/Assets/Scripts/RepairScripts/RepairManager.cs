@@ -11,6 +11,13 @@ public enum RepairChoice
     Arms = 2,
     Legs = 3
 }
+public enum CursorType
+{
+    HandPoint = 0,
+    HandReach = 1,
+    HandGrab = 2,
+    Screwdriver = 3
+}
 public class RepairTypeInformation
 {
     private GameObject[] repairGameObjects;
@@ -109,6 +116,9 @@ public class RepairManager : MonoBehaviour
     private IRepairSystem currentRepairSystem;
     private InputAction meleeAction;
 
+    // Custom Cursor Sprites
+    [SerializeField] private GameObject[] handCursorGameObjects;
+
     private void OnEnable()
     {
         repairWheelAction = InputSystem.actions.FindAction("Repair Wheel");
@@ -120,12 +130,14 @@ public class RepairManager : MonoBehaviour
     }
     private void Start()
     {
+        DisableAllCursors();
         repairWheel.GetComponent<RepairChoiceWheel>().RepairChosen.AddListener(ShowRepair);
         UIHolderAnimator = repairUIHolder.GetComponent<Animator>();
         playerData.repairs[RepairChoice.Head].RepairGameObjects = headRepairs;
         playerData.repairs[RepairChoice.Body].RepairGameObjects = bodyRepairs;
         playerData.repairs[RepairChoice.Arms].RepairGameObjects = armsRepairs;
         playerData.repairs[RepairChoice.Legs].RepairGameObjects = legsRepairs;
+
     }
     public void ShowRepairWheel(InputAction.CallbackContext context)
     {
@@ -136,6 +148,7 @@ public class RepairManager : MonoBehaviour
         Time.timeScale = 1;
         timeSlowCoroutine = StartCoroutine(SlowDownTime());
         //Time.timeScale = timeSlowDown;
+        Cursor.visible = false;
         UIHolderAnimator.ResetTrigger("Come Up");
     }
     private IEnumerator SlowDownTime()
@@ -168,14 +181,17 @@ public class RepairManager : MonoBehaviour
     }
     public void ShowRepair(RepairChoice choice)
     {
+        Cursor.visible = true;
         Debug.Log("Choice: " + choice);
         if (currentRepairChoice == choice) return;
+        
         if (choice == RepairChoice.None)
         {
             CloseRepair();
             return;
         }
-
+        Cursor.visible = false;
+        handCursorGameObjects[(int)CursorType.HandPoint].SetActive(true); // this is the default cursor when starting
         RepairTypeInformation repairInfo = playerData.repairs[choice];
 
         if (repairInfo.Durability >= repairInfo.MaxDurability || playerData.AmountOfRepairTokens <= 0)
@@ -195,9 +211,11 @@ public class RepairManager : MonoBehaviour
     }
     public void CloseRepair()
     {
+        DisableAllCursors();
         UIHolderAnimator.SetTrigger("Come Up");
         isRepairing = false;
         currentRepairChoice = RepairChoice.None;
+        Cursor.visible = true;
         if (currentRepairSystem != null)
         {
             currentRepairSystem.RepairFinished.RemoveAllListeners();
@@ -209,5 +227,12 @@ public class RepairManager : MonoBehaviour
         repairInfo.Repair();
         playerData.AmountOfRepairTokens--;
         CloseRepair();
+    }
+    private void DisableAllCursors()
+    {
+        foreach (GameObject cursor in handCursorGameObjects)
+        {
+            cursor.SetActive(false);
+        }
     }
 }
