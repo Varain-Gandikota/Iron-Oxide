@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f27a876937598944fa6b5214c26487f6
+guid: ce7f45320e76f21419ab5c10ed4d4d35
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8096009776414362259
-    second: RobotPointSprite_0
+      213: -130229210149090588
+    second: RobotOpenHand_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -24,7 +24,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 1
+  isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -113,23 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: RobotPointSprite_0
+      name: RobotOpenHand_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 59
-        height: 82
+        width: 54
+        height: 62
       alignment: 9
-      pivot: {x: 0.094236396, y: 0.9126234}
+      pivot: {x: 0.094088994, y: 0.9184705}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d657bbab00235af80800000000000000
-      internalID: -8096009776414362259
+      spriteID: 4ea0fad2935513ef0800000000000000
+      internalID: -130229210149090588
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 637f774498dc160488c50a046dc9cbf3
+    spriteID: 7a511457bbb8e8d42965557b38c8418b
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      RobotPointSprite_0: -8096009776414362259
+      RobotOpenHand_0: -130229210149090588
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

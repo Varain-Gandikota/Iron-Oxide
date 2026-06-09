@@ -32,12 +32,14 @@ public class Drag : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         mouseHeld = doGrab;
+        MouseSpriteManager.Instance.ChangeCursor(CursorType.HandGrab);
         //Debug.Log("Recieved Pointer Down");
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         mouseHeld = false;
+        MouseSpriteManager.Instance.ChangeCursor(CursorType.HandReach);
         //Debug.Log("Recieved Pointer Up");
     }
 }

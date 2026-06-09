@@ -11,13 +11,6 @@ public enum RepairChoice
     Arms = 2,
     Legs = 3
 }
-public enum CursorType
-{
-    HandPoint = 0,
-    HandReach = 1,
-    HandGrab = 2,
-    Screwdriver = 3
-}
 public class RepairTypeInformation
 {
     private GameObject[] repairGameObjects;
